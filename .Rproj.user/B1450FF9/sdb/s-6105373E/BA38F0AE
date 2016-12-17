@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "install.packages(\"rfishbase\", \n                 repos = c(\"http://packages.ropensci.org\", \"http://cran.rstudio.com\"), \n                 type=\"source\")\nlibrary(rfishbase)\n?species\nspecies(c(\"Labroides bicolor\", \"Bolbometopon muricatum\"), fields = species_fields$habitat) \n?cites\n??cites\nhead(species_fields)\ntable(species_fields$stocks)\n?stocks\nstocks(c(\"Labroides bicolor\"), fields = c(\"CITES_Code\"))\nstocks(\"Labroides bicolor\")\nfecundity()\n?list_fields\nspecies_fields\nStockDefs\nlength(stocks(fields = c(\"CITES_Code\")))\n\nunique(CITES$CITES_Code)\nCITES <- stocks(fields = c(\"CITES_Code\"), limit = 33710)\n\n#works\nCITES <- data.frame(stocks(fields = c(\"CITES_Code\"), limit = 33710), stringsAsFactors = FALSE)\n\n#ways of removing NAs\ntable(CITES$CITES_Code, exclude = NA) #works\nCITES.t <- CITES[ CITES$CITES_Code != is.na(CITES$CITES_Code),]\n\nwhich(CITES$CITES_Code == )\ncites.r <- CITES[ - which(is.na(CITES$CITES_Code)) , ]\n\nunique(CITES$CITES_Code)\nwhich(is.na(CITES$CITES_Code))\n\nCITES[CITES$CITES_Code == \"Appendix II\",]\n\ncites.sp <- cites.r$sciname\n\nspecies(\"Labroides bicolor\") \n\nc.habitat <- species(cites.sp, fields = species_fields$habitat) \n\nc.habitat[c.habitat$AnaCat == \"non-migratory\",]\nwhich(c.habitat$AnaCa == \"non-migratory\")\nhab.non.mig <- c.habitat[(which(c.habitat$AnaCa == \"non-migratory\")), ]\nlength(which(c.habitat$AnaCa == \"non-migratory\"))\ntable(c.habitat$AnaCat)\n\n",
+    "created" : 1481856641731.000,
+    "dirty" : true,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "166132712",
+    "id" : "BA38F0AE",
+    "lastKnownWriteTime" : 1481932430,
+    "last_content_update" : 1481933732103,
+    "path" : "~/Desktop/Personal Project/Personal Project/MessingAround.R",
+    "project_path" : "MessingAround.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

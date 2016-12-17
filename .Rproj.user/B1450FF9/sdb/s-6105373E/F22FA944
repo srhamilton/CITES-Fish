@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#\n# two exercises to better understand the lm output \n# 1) regression analysis\n# 2) anova analysis\n#\n\n\n# ==============================================================\n# 1) regression analysis\n# ==============================================================\n\n\n# --- a\n# read the data \"data.regression.csv\" and make a plot\n# pch = 16 and make the dots red\nwkdr <- getwd()\nlist.files()\ndata <- read.csv(paste(wkdr, \"/data.regression.csv\", sep = \"\"), stringsAsFactors = FALSE)\n\nplot(data, pch = 16, col = \"red\")\n\n# --- b\n# plot the simplest model, intercept only\nm0 <- lm(data$hormone ~ 1)\nsummary(m0)\nabline(m0)\n# calculate the mean and plot is as a grey line, of thickness 2 and dashed (lty = ....)\nmean(data$hormone)\nlines(c(2, 10), rep( mean(data$hormone), 2), col = \"grey\", lwd = 2, lty = \"dashed\")\n#the rep is because we have two different x valuses \n\n# check the mean with the model output\nm0$coefficients - mean(data$hormone)\n\n# get an idea of how much variance is explianed using the residuals\nm0$residuals\nsum(m0$residuals)\nsummary(m0)\n\nrs.sq.m0 <- sum(m0$residuals^2)\n\n# --- c\n# do  linear regression and fit the slope as well\nm1 <- lm(data$hormone~ data$age)\nsummary(m1)\n# plot the fitted line and make it grey\nabline(m1, col = \"purple\")\n\n# use the same measure as above to chekc if more or less variance is explained\nsum(m1$residuals)\nrs.sq.m1 <- sum(m1$residuals^2)\nrs.sq.m0\n\n# --- d\n# use the anova() function on both models and interpret what this says\n# anova(model1, model2)\n\nanova(m0, m1)\n# ---\n\n\n# ==============================================================\n# 2) anova analysis\n# ==============================================================\n# run the code below to make a test data set\n# ---- test data set ----\n# make a data set and test the anova\nweight.t <- c(4, 10, 3)\nsd.t <- c(1,1, 1)\nn.t <- c(10, 10, 15)\nnames.t <- c(\"bird\", \"mammals\", \"fish\")\nanimal.t <- rep( names.t, n.t)\n\n# make data sets\ndata.t <- c( rnorm( n.t[1], weight.t[1], sd.t[1]), rnorm(n.t[2], weight.t[2], sd.t[2]), rnorm(n.t[3], weight.t[3], sd.t[3]) )\nd <- as.data.frame(cbind(animal.t, data.t), stringsAsFactors = FALSE)\nstr(d)\ncolnames(d) <- c(\"animal\", \"weight\")\nd$weight <- as.numeric(d$weight)\n# -----------\n\n# --- a\n# make a plot where each group is seperated (like stripchart)\n# points() and make different colour for each of the groups\n\n\n# add the eman for each group and the overal mean\n\n\n# --- b\n# run an anova (lm()) and check the output and link it with the figure\n\n\n# check the dummy variables using model.matrix()\n\n\n# --- c\n# what do the different t tests respresent?\n# Think of a way to figure this out and perform the tests\n\n\n# --- d \n# perform a means model and interpret the output\n\n\n\n# --- e what tests are done? redo them\n\n\n\n# lets add a second vexplanatory variable, sex\n# e.g. to data frame d: d$sex <- rep( c(\"male\", \"female\"), sum(n.t) / 2)\n# --- f\n# check models with and without the variables using summary\n\n# --- g\n# anova fits the variables sequentially (\"type I sum of squares\") in R as default\n# The order of variables matter! But only of the design is not balanced.\n# other programs do sequentially fitting (\"type III sum of squares\")\n# you can use the car package to test this, or you can do it manualy \n# check this effect but re-arranging the order of the explanatory variables.\n\n\n\n# --- g \n# use anova() to compare models \n\n\n\n# load the car package  \n# --- h try the Anova() for the Type III method. \n# Anova(model.output, type = 3)\nlibrary(car)\n\n\n\n",
+    "created" : 1481860116820.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4187607433",
+    "id" : "F22FA944",
+    "lastKnownWriteTime" : 1481587447,
+    "last_content_update" : 1481587447,
+    "path" : "~/Desktop/RLibrary/lm.exercise.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
