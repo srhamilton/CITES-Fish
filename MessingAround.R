@@ -11,7 +11,7 @@ table(species_fields$stocks)
 ?stocks
 stocks(c("Labroides bicolor"), fields = c("CITES_Code"))
 stocks("Labroides bicolor")
-speices("Labroides bicolor")
+species("Labroides bicolor")
 fecundity()
 ?list_fields
 species_fields
@@ -94,8 +94,39 @@ length(c.length.trans)
 length(c.length.trans[c.length.trans > 1.85])
 length(c.length.trans[c.length.trans < 1.85])
 
-cites.sig <- cites.morph[log10(cites.morph$Length) >1.85,]
-cites.sig$Length
+cites.sig <- cites.morph[ which(log10(cites.morph$Length) > 1.85), ]
+
+cites.sig.depth <- species(cites.sig$sciname, fields = species_fields$depth)
+
+cites.sig.fishing <- species(cites.sig$sciname, fields = species_fields$fishing)
+
+cites.sig.all <- cites.all[ which(log10(cites.morph$Length) > 1.85), ]
+cites.nsig.all <- cites.all[ which(log10(cites.morph$Length) < 1.85), ]
+
+table(cites.sig.all$Genus)
+unique(cites.sig.all$Genus)
+
+table(cites.nsig.all$Genus)
+unique(cites.nsig.all$Genus)
+
+exl.cites <- cites.morph[ - which(cites.morph)]
+ex.hip <- cites.all[ - which(cites.all$genus == "Hippocampus"),]
+
+ex.t <- (cites.all$Length, cites.all$Genus)
+
+#kicking hippocampus out
+h <- cites.all[- grep("Hippocampus", cites.all$Genus),]
+
+hist(log10(h$Length), breaks = 30)
+
+t.test((log10(h$Length)), mu = trans.mean.all)
+
+ah.ex <- h[ - grep("Acipenser", h$Genus), ]
+
+hist(ah.ex$Length, breaks = 20)
+hist(log10(ah.ex$Length), breaks = 20)
+
+
 
 length.mean.all <- mean(morph.all$Length, na.rm = TRUE)
 length(morph.all$Length)

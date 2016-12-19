@@ -8,5 +8,8 @@ str(cites.r)
 #object with names of species that have CITES code
 cites.sp <- cites.r$sciname
 
-#pulling habitat information about species 
-species(cites.sp, fields = species_fields$habitat) 
+#morphology of species, length has all, weight isnt bad
+cites.morph <- species(cites.sp, fields = species_fields$morph) 
+
+morph.all <- species(fields = species_fields$morph, limit = 40000)
+

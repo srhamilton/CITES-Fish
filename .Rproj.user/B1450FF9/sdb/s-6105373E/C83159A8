@@ -1,14 +1,14 @@
 {
     "collab_server" : "",
-    "contents" : "\n#pull the data for CITES codes\nCITES <- data.frame(stocks(fields = c(\"CITES_Code\"), limit = 33710), stringsAsFactors = FALSE)\n\n#remove all of the NAs only keeping the species that have a CITES code\ncites.r <- CITES[ - which(is.na(CITES$CITES_Code)) , ]\nstr(cites.r)\n#object with names of species that have CITES code\ncites.sp <- cites.r$sciname\n\n#pulling habitat information about species \nspecies(cites.sp, fields = species_fields$habitat) \n",
+    "contents" : "\n#pull the data for CITES codes\nCITES <- data.frame(stocks(fields = c(\"CITES_Code\"), limit = 33710), stringsAsFactors = FALSE)\n\n#remove all of the NAs only keeping the species that have a CITES code\ncites.r <- CITES[ - which(is.na(CITES$CITES_Code)) , ]\nstr(cites.r)\n#object with names of species that have CITES code\ncites.sp <- cites.r$sciname\n\n#morphology of species, length has all, weight isnt bad\ncites.morph <- species(cites.sp, fields = species_fields$morph) \n\nmorph.all <- species(fields = species_fields$morph, limit = 40000)\n\n",
     "created" : 1481931538897.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "2546284102",
+    "hash" : "40885541",
     "id" : "C83159A8",
-    "lastKnownWriteTime" : 1481932419,
-    "last_content_update" : 1481932419736,
+    "lastKnownWriteTime" : 1482112752,
+    "last_content_update" : 1482112752343,
     "path" : "~/Desktop/Personal Project/Personal Project/Working scrip.R",
     "project_path" : "Working scrip.R",
     "properties" : {
