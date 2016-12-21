@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "#creating glms to see if length, depth, or a combination of these can be used to \n#predict if a species has a CITES code or not\n\n#changing Cites_Code into a binary responce \nfor(i in 1:length(n.t3$Cites_Code)) { \n  if (is.na(n.t3$Cites_Code[i])) {\n    n.t3$Cites_Code[i] <- 0\n  } else\n    n.t3$Cites_Code[i] <- 1\n}\n\n#unlisting collumns to make them easier to work with \nn.t3$Length <- unlist(n.t3$Length)\nn.t3$SpecCode <- unlist(n.t3$SpecCode)\nn.t3$Cites_Code <- unlist(n.t3$Cites_Code)\nn.t3$MaxDepth <- unlist(n.t3$MaxDepth)\n\nstr(n.t3)\n\n#removing rows that don't have a value for length and depth\nn.t3 <- n.t3[ - which(is.na(n.t3$Length)),]\nn.t3 <- n.t3.t[ - which(is.na(n.t3$MaxDepth)),]\n\n#creating different GLMs\nglm0 <- glm(Cites_Code ~ 1, data = n.t3, family = binomial)\n\nglm1 <- glm(Cites_Code ~ Length, data = n.t3, family = binomial)\nglm2 <- glm(Cites_Code ~ MaxDepth, data = n.t3, family = binomial)\nglm3 <- glm(Cites_Code ~ Length + MaxDepth, data = n.t3, family = binomial)\n\n#testing the glms for fit\nglm0$deviance / glm0$df.residual\nglm1$deviance / glm1$df.residual\nglm2$deviance / glm2$df.residual\nglm3$deviance / glm3$df.residual\n\n#finding the model with the best fit\nanova(glm0, glm1, test = \"Chisq\")\nanova(glm0, glm2, test = \"Chisq\")\nanova(glm1, glm3, test = \"Chisq\")\nanova(glm2, glm3, test = \"Chisq\")\nanova(glm0, glm3, test = \"Chisq\")\n\n\n####how to draw a line for a glm that has more than one variable?\npar(mfrow = c(1,1))\nplot(n.t3$MaxDepth, n.t3$Cites_Code)\n\nrange.for.predict <- seq(min(n.t3$MaxDepth), max(n.t3$MaxDepth), 0.1)\npred.response <- predict(glm2, list(MaxDepth = range.for.predict), type = \"response\")\nlines(range.for.predict, pred.response, col = \"red\", lwd = 1)\n\n#making specifications for the figure below\njitter.t <- c(0.3) \ncol.t <- c(\"#2B1575\") #colour\nalpha.t <- c(50, \"FF\") #transparency \n\n#saving a pdf of a figure of the relationship between length and CITES codes to the figures folder\npdf(paste(p.figures, \"Length_CITES.pdf\", sep = \"\"))\nplot(n.t3$Length, jitter(n.t3$Cites_Code, jitter.t), xlab = \"Fish Length (cm)\", ylab = \"CITES Code\", pch = 16, col = paste(col.t[1], alpha.t[1], sep = \"\"), las = 1)\nrange.for.predict <- seq(min(n.t3$Length), max(n.t3$Length), 0.1)\npred.response <- predict(glm1, list(Length = range.for.predict), type = \"response\")\nlines(range.for.predict, pred.response, col = \"red\", lwd = 1)\ndev.off()\n\n\n",
+    "created" : 1482211900102.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "290634164",
+    "id" : "A9C131CD",
+    "lastKnownWriteTime" : 1482280198,
+    "last_content_update" : 1482280198248,
+    "path" : "~/Desktop/Personal Project/Personal Project/GLM test.R",
+    "project_path" : "GLM test.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

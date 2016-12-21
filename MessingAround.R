@@ -1,3 +1,4 @@
+#initial set up------
 install.packages("rfishbase", 
                  repos = c("http://packages.ropensci.org", "http://cran.rstudio.com"), 
                  type="source")
@@ -19,10 +20,10 @@ StockDefs
 length(stocks(fields = c("CITES_Code")))
 
 unique(CITES$CITES_Code)
-CITES <- stocks(fields = c("CITES_Code"), limit = 33710)
 
-#works
+#getting CITES data ------
 CITES <- data.frame(stocks(fields = c("CITES_Code"), limit = 33710), stringsAsFactors = FALSE)
+
 
 #ways of removing NAs
 table(CITES$CITES_Code, exclude = NA) #works
@@ -56,8 +57,7 @@ table(c.habitat$AnaCat)
 #morphology of species, length has all, weight isnt bad
 cites.morph <- species(cites.sp, fields = species_fields$morph) 
 
-cites.length.mean <- mean(cites.morph$Length)
-cites.length.mean <- mean(cites.morph$Length[which(cites.morph$Length != "NA")])
+
 length.mean.cites <- mean(cites.morph$Length, na.rm = TRUE)
 
 morph.all <- species(fields = species_fields$morph, limit = 40000) #this one for now
@@ -69,10 +69,21 @@ hist(morph.all$Length)
 hist(log10(morph.all$Length))
 
 c.length.trans <- log10(cites.morph$Length)
-hist(asin(sqrt(cites.morph$Length)), na.rm = TRUE)
+
+
+d.c <- cites.all[ - which(is.na(cites.all$Length)),]
+d.a <- morph.all[ - which(is.na(morph.all$Length)),]
 
 hist(log10(cites.morph$Length), breaks = 30)
 hist((cites.morph$Length), breaks = 30)
+
+#non parametric Kolmogorov-Smirnov Test becsue not a normal dsitribution 
+ks.test(d.c$Length, d.a$Length)
+
+str(morph.all)
+str(cites.morph)
+?wilcox.test
+?complete.cases
 
 #if the data is split completely in half 
 hist(c.length.trans[c.length.trans < 1.85], breaks =10)
@@ -96,9 +107,9 @@ length(c.length.trans[c.length.trans < 1.85])
 
 cites.sig <- cites.morph[ which(log10(cites.morph$Length) > 1.85), ]
 
-cites.sig.depth <- species(cites.sig$sciname, fields = species_fields$depth)
+cites.depth <- species(cites.$sciname, fields = species_fields$depth)
 
-cites.sig.fishing <- species(cites.sig$sciname, fields = species_fields$fishing)
+cites.fishing <- species(cites.sig$sciname, fields = species_fields$fishing)
 
 cites.sig.all <- cites.all[ which(log10(cites.morph$Length) > 1.85), ]
 cites.nsig.all <- cites.all[ which(log10(cites.morph$Length) < 1.85), ]
@@ -109,10 +120,9 @@ unique(cites.sig.all$Genus)
 table(cites.nsig.all$Genus)
 unique(cites.nsig.all$Genus)
 
-exl.cites <- cites.morph[ - which(cites.morph)]
-ex.hip <- cites.all[ - which(cites.all$genus == "Hippocampus"),]
 
-ex.t <- (cites.all$Length, cites.all$Genus)
+
+
 
 #kicking hippocampus out
 h <- cites.all[- grep("Hippocampus", cites.all$Genus),]
@@ -128,6 +138,15 @@ hist(log10(ah.ex$Length), breaks = 20)
 
 
 
+
+
+
+
+
+
+
+
+#other bits------
 length.mean.all <- mean(morph.all$Length, na.rm = TRUE)
 length(morph.all$Length)
 
@@ -136,8 +155,8 @@ length(cites.morph$Length[which(cites.morph$Length != "NA")])
 length(morph.all$Length[which(morph.all$Length != "NA")])
 
 
-?morphology
-morphology(morphology_f)
+
+
 
 
 #begingin of loop to compare all cites species and see what variable has the highest number,
@@ -153,5 +172,5 @@ for(i in 1:ncol(cites.all)) {
  x <- unique(cites.all$i)
 }
 
-
+rm(list = ls...)
 

@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#\n# setting up a folder structure and using paths\n# to allow for batch processes and reproducible scripts\n# \n#\n#\n\n# get working directory\nwkdir <- getwd()\n\n# check which files are in the working directory\nfiles <- list.files()\nlength(files) # how many files\nstr(files)    # what is the structure of the object files\n\n# want want to have the following folders\nfolders <- c(\"script\", \"data\", \"figures\", \"data output\")\nlength(folders) # number of folders\n\n# check if the folders exist, if not, make them\nfor(i in 1:length(folders)){\n  if( file.exists(folders[i]) == FALSE) {\n    dir.create(folders[i])\n  }\n}\n\n# let's make paths to the folders\n# this will be used to access files from and write files to\n# the folders. I use p. for 'path'\np.script <- paste(wkdir,\"/script/\", sep = \"\")\np.data <- paste(wkdir,\"/data/\", sep = \"\")\np.data.out <- paste(wkdir,\"/data output/\", sep = \"\")\np.fig <- paste(wkdir,\"/figures/\", sep = \"\")\n\n# get the path to the files in the folder data (path is p.data)\ndata.files <-  list.files(p.data)\n\n#read file 'counter' (to which you assign a number)\ncounter <- 2\nd <- read.csv(paste(p.data, data.files[counter], sep = \"\"))\nhead(d)  \n\n# make a vector to store regression coefficients into of all the files\nslopes <- rep(NA, length(data.files))\n\n# move the example above into a for loop\nfor(i in 1:length(data.files)){\n  #i <- 1  # i is now the object that R uses to keep track of the number of\n  # iterations of the loop\n  \n  # read the data using the names stored in data.files\n  d <- read.csv(paste(p.data, data.files[i], sep = \"\"))\n  str(d)\n  # do a regression\n  m <- lm(d$DNA.concentration ~ d$waterlevel)\n  # check the coefficients\n  m$coefficients    # second index is the slope\n  slopes[i] <- m$coefficients[2]\n  \n  # plot the data and the fitted slopes\n  pdf(paste(p.fig, \"figures.regression.\", data.files[i], \".pdf\", sep = \"\"))\n  plot(d$waterlevel, d$DNA.concentration, pch = 19, las = 1)\n  abline(m, col = \"red\")  # plots fitted regression\n  dev.off() # closes the graphics device, need together with pdf()\n}\n\n# combine the file names with with slopes and save as .csv\nslopes.all <- data.frame(cbind(data.files, slopes), stringsAsFactors = FALSE)\ncolnames(slopes.all) <- c(\"file.names\", \"regression.coeff\")\n\nwrite.csv(slopes.all, paste(p.data.out, \"overview.slopes.csv\", sep = \"\"), row.names = FALSE)\n\n\n\n",
+    "created" : 1482282106214.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "973797515",
+    "id" : "14478C84",
+    "lastKnownWriteTime" : 1481584301,
+    "last_content_update" : 1481584301,
+    "path" : "~/Documents/Quest/4th Year/Data Science/data.science.A/example.folders.paths.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
